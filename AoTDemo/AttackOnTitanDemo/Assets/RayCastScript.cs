@@ -16,8 +16,10 @@ public class RayCastScript : MonoBehaviour {
 
     Vector3 DirectionLeft;
     Vector3 DirectionRight;
-
 	// Use this for initialization
+
+    bool destroyLeft = false;
+    bool destroyRight = false;
 
     void Update()
     {
@@ -29,7 +31,9 @@ public class RayCastScript : MonoBehaviour {
         if (Input.GetButton("RB")) Debug.LogError("RB");
     }
 	
-	void FixedUpdate () {
+	void FixedUpdate ()
+    {
+        #region Raycasting
         rayLeft = new Ray(transform.position, Quaternion.Euler(0.0f, -15.0f, 0.0f) * transform.forward);
         rayRight = new Ray(transform.position, Quaternion.Euler(0.0f, 15.0f, 0.0f) * transform.forward);
 
@@ -72,7 +76,9 @@ public class RayCastScript : MonoBehaviour {
                 //targetRight = Vector3.zero;
             }
         }
+        #endregion
 
+        #region Bumpermovement
         if (Input.GetMouseButtonUp(0) || Input.GetButtonUp("LB"))
         {
             if (targetLeft == Vector3.zero)
@@ -85,11 +91,7 @@ public class RayCastScript : MonoBehaviour {
                 }
                 transform.parent.GetComponent<Rigidbody>().velocity = Direction * transform.parent.GetComponent<Rigidbody>().velocity.magnitude;
             }
-            else
-            {
-                targetLeft = Vector3.zero;
-                DirectionLeft = Vector3.zero;
-            }
+            
             
         }
         if (Input.GetMouseButtonUp(1) || Input.GetButtonUp("RB"))
@@ -104,11 +106,6 @@ public class RayCastScript : MonoBehaviour {
                 }
                 transform.parent.GetComponent<Rigidbody>().velocity = Direction * transform.parent.GetComponent<Rigidbody>().velocity.magnitude;
             }
-            else
-            {
-                targetRight = Vector3.zero;
-                DirectionRight = Vector3.zero;
-            }
         }
 
         if (targetLeft != Vector3.zero)
@@ -116,6 +113,7 @@ public class RayCastScript : MonoBehaviour {
             DirectionLeft = Vector3.Cross(targetLeft - transform.position, Vector3.up).normalized;
             if (Mathf.Sign(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionLeft)) == -1)
             {
+                Debug.LogError(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight));
                 DirectionLeft = Quaternion.Euler(0.0f, 180.0f, 0.0f) * DirectionLeft;
             }
 
@@ -129,6 +127,7 @@ public class RayCastScript : MonoBehaviour {
             DirectionRight = Vector3.Cross(targetRight - transform.position, Vector3.up).normalized;
             if (Mathf.Sign(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight)) == -1)
             {
+                Debug.LogError(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight));
                 DirectionRight = Quaternion.Euler(0.0f, 180.0f, 0.0f) * DirectionRight;
             }
             
@@ -143,5 +142,43 @@ public class RayCastScript : MonoBehaviour {
             transform.parent.GetComponent<Rigidbody>().velocity = Dir.normalized * transform.parent.GetComponent<Rigidbody>().velocity.magnitude;
 
         Debug.DrawLine(transform.position, transform.position + transform.parent.GetComponent<Rigidbody>().velocity, Color.white);
-	}
+        #endregion
+
+        #region Triggermovement
+
+        if (targetLeft != Vector3.zero)
+        {
+            if (Input.GetAxis("LT") >= 0.5f)
+            {
+                destroyLeft = true;
+
+                transform.parent.GetComponent<Rigidbody>().AddForce((targetLeft - transform.position).normalized * 2.0f, ForceMode.VelocityChange);
+            }
+            else if (Input.GetAxis("LT") <= 0.01f && destroyLeft)
+            {
+                targetLeft = Vector3.zero;
+                DirectionLeft = Vector3.zero;
+
+                destroyLeft = false;
+            }
+        }
+
+        if (targetRight != Vector3.zero)
+        {
+            if (Input.GetAxis("RT") >= 0.5f)
+            {
+                destroyRight = true;
+
+                transform.parent.GetComponent<Rigidbody>().AddForce((targetRight - transform.position).normalized * 2.0f, ForceMode.VelocityChange);
+            }
+            else if (Input.GetAxis("RT") <= 0.01f && destroyRight)
+            {
+                targetRight = Vector3.zero;
+                DirectionRight = Vector3.zero;
+
+                destroyRight = false;
+            }
+        }
+        #endregion
+    }
 }
