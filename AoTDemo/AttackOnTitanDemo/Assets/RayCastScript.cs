@@ -4,6 +4,7 @@ using System.Collections;
 public class RayCastScript : MonoBehaviour {
 
     public GameObject Sphere;
+
     private GameObject LocalSphereLeft;
     private GameObject LocalSphereRight;
     RaycastHit hitLeft;
@@ -108,29 +109,29 @@ public class RayCastScript : MonoBehaviour {
             }
         }
 
-        if (targetLeft != Vector3.zero)
+        if (targetLeft != Vector3.zero && Input.GetAxis("LT") <= 0.01f)
         {
-            DirectionLeft = Vector3.Cross(targetLeft - transform.position, Vector3.up).normalized;
-            if (Mathf.Sign(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionLeft)) == -1)
-            {
-                Debug.LogError(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight));
-                DirectionLeft = Quaternion.Euler(0.0f, 180.0f, 0.0f) * DirectionLeft;
-            }
+            //DirectionLeft = Vector3.Cross(targetLeft - transform.position, Vector3.up).normalized;
+            //if (Mathf.Sign(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionLeft)) == -1)
+            //{
+            //    Debug.LogError(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight));
+            //    DirectionLeft = Quaternion.Euler(0.0f, 180.0f, 0.0f) * DirectionLeft;
+            //}
 
             Debug.DrawRay(transform.position, targetLeft - transform.position, Color.red);
             Debug.DrawLine(targetLeft, targetLeft + transform.up, Color.blue);
             Debug.DrawLine(targetLeft, targetLeft + DirectionLeft, Color.green);
         }
 
-        if (targetRight != Vector3.zero)
+        if (targetRight != Vector3.zero && Input.GetAxis("RT") <= 0.01f)
         {
-            DirectionRight = Vector3.Cross(targetRight - transform.position, Vector3.up).normalized;
-            if (Mathf.Sign(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight)) == -1)
-            {
-                Debug.LogError(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight));
-                DirectionRight = Quaternion.Euler(0.0f, 180.0f, 0.0f) * DirectionRight;
-            }
-            
+            //DirectionRight = Vector3.Cross(targetRight - transform.position, Vector3.up).normalized;
+            //if (Mathf.Sign(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight)) == -1)
+            //{
+            //    Debug.LogError(Vector3.Dot(transform.parent.GetComponent<Rigidbody>().velocity - transform.position, DirectionRight));
+            //    DirectionRight = Quaternion.Euler(0.0f, 180.0f, 0.0f) * DirectionRight;
+            //}
+
 
             Debug.DrawRay(transform.position, targetRight - transform.position, Color.red);
             Debug.DrawLine(targetRight, targetRight + transform.up, Color.blue);
@@ -152,7 +153,7 @@ public class RayCastScript : MonoBehaviour {
             {
                 destroyLeft = true;
 
-                transform.parent.GetComponent<Rigidbody>().AddForce((targetLeft - transform.position).normalized * 2.0f, ForceMode.VelocityChange);
+                transform.parent.GetComponent<Rigidbody>().AddForce((targetLeft - transform.position).normalized * 1.0f, ForceMode.VelocityChange);
             }
             else if (Input.GetAxis("LT") <= 0.01f && destroyLeft)
             {
@@ -169,7 +170,7 @@ public class RayCastScript : MonoBehaviour {
             {
                 destroyRight = true;
 
-                transform.parent.GetComponent<Rigidbody>().AddForce((targetRight - transform.position).normalized * 2.0f, ForceMode.VelocityChange);
+                transform.parent.GetComponent<Rigidbody>().AddForce((targetRight - transform.position).normalized * 1.0f, ForceMode.VelocityChange);
             }
             else if (Input.GetAxis("RT") <= 0.01f && destroyRight)
             {
