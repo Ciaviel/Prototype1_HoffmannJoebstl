@@ -4,7 +4,7 @@ using System.Collections;
 public class CamController : MonoBehaviour
 {
     public HookController hookController;
-    
+
     public Vector3 ray1Offset;
     public Vector3 ray1Dir;
 
@@ -25,21 +25,21 @@ public class CamController : MonoBehaviour
 
         if (!Input.GetButton("Fire1"))
         {
-            Ray ray1 = new Ray(transform.position + transform.parent.rotation * ray1Offset, transform.rotation * ray1Dir );
-        RaycastHit result1;
-        Physics.Raycast(ray1, out result1);
+            Ray ray1 = new Ray(transform.position + transform.parent.rotation * ray1Offset, transform.rotation * ray1Dir);
+            RaycastHit result1;
+            Physics.Raycast(ray1, out result1);
 
-        if(result1.collider != null)
-        {
-            Debug.DrawLine(transform.position + transform.parent.rotation * ray1Offset, result1.point, Color.green);
-            debugBall1.transform.position = result1.point;
-            debugBall1.SetActive(true);
-            hookController.target1 = debugBall1.transform;
-        }
-        else
-        {
-            debugBall1.SetActive(false);
-            hookController.target1 = null;
+            if (result1.collider != null)
+            {
+                Debug.DrawLine(transform.position + transform.parent.rotation * ray1Offset, result1.point, Color.green);
+                debugBall1.transform.position = result1.point;
+                debugBall1.SetActive(true);
+                hookController.target1 = debugBall1.transform;
+            }
+            else
+            {
+                debugBall1.SetActive(false);
+                hookController.target1 = null;
             }
         }
         else
