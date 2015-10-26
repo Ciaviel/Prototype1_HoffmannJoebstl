@@ -11407,9 +11407,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hookController: {fileID: 1145855216}
-  ray1Offset: {x: -.5, y: 0, z: 0}
+  ray1Offset: {x: -.100000001, y: 0, z: 0}
   ray1Dir: {x: -.200000003, y: 0, z: 1}
-  ray2Offset: {x: .5, y: 0, z: 0}
+  ray2Offset: {x: .100000001, y: 0, z: 0}
   ray2Dir: {x: .200000003, y: 0, z: 1}
   debugBall1: {fileID: 1100442516}
   debugBall2: {fileID: 347667092}
@@ -30295,11 +30295,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myUp: {x: 0, y: 0, z: 0}
-  ropeForce: 20
+  ropeForce: 40
   jumpforce: 10
   target1: {fileID: 0}
   target2: {fileID: 0}
-  turnspeed: 2
+  turnspeed: 3
+  Model: {fileID: 1412710727}
 --- !u!54 &1145855217
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -20,6 +20,10 @@ public class HookController : MonoBehaviour
     public float turnspeed;
     private Quaternion targetLookDir;
 
+    public Transform Model;
+
+    bool RotateWithCamera = true;
+
     // Use this for initialization
     void Start()
     {
@@ -74,10 +78,8 @@ public class HookController : MonoBehaviour
             {
                 myRigidbody.AddForce(-radVel, ForceMode.VelocityChange);
             }
-            else
-            {
-                myRigidbody.AddForce(dir * Input.GetAxis("TriggersL_1") * ropeForce, ForceMode.Acceleration);
-            }
+
+            myRigidbody.AddForce(dir * Input.GetAxis("TriggersL_1") * ropeForce, ForceMode.Acceleration);
         }
         else
         {
@@ -110,17 +112,30 @@ public class HookController : MonoBehaviour
             {
                 myRigidbody.AddForce(-radVel, ForceMode.VelocityChange);
             }
-            else
-            {
-                myRigidbody.AddForce(dir * Input.GetAxis("TriggersR_1") * ropeForce, ForceMode.Acceleration);
-            }
+            myRigidbody.AddForce(dir * Input.GetAxis("TriggersR_1") * ropeForce, ForceMode.Acceleration);
         }
         else
         {
             distToTarget2 = -1.0f;
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetLookDir, turnspeed);
+
+        if(RotateWithCamera){
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetLookDir, turnspeed);
+            Model.localRotation = Quaternion.identity;
+        }
+        else{
+            Model.rotation = Quaternion.RotateTowards(Model.rotation, targetLookDir, turnspeed);
+        }
+    }
+
+    void OnGUI()
+    {
+        string buttonString = "Rotate Camera with Character: " + RotateWithCamera.ToString();
+        if (GUI.Button(new Rect(10, 10, 300, 50), buttonString))
+        {
+            RotateWithCamera = !RotateWithCamera;
+        }
     }
 
 }
