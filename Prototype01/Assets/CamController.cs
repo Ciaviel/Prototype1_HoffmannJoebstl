@@ -23,6 +23,8 @@ public class CamController : MonoBehaviour
         transform.localRotation *= Quaternion.AngleAxis(camX * 2, Vector3.up);
         transform.localRotation *= Quaternion.AngleAxis(camY * 2, Vector3.right);
 
+        transform.LookAt(transform.position + transform.forward, hookController.myUp);
+
         if (!Input.GetButton("LB_1"))
         {
             Ray ray1 = new Ray(transform.position + transform.parent.rotation * ray1Offset, transform.rotation * ray1Dir);
