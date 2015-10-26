@@ -30296,7 +30296,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myUp: {x: 0, y: 0, z: 0}
   ropeForce: 40
-  jumpforce: 10
+  jumpforce: 20
+  strafeforce: 20
+  dashforce: 20
   target1: {fileID: 0}
   target2: {fileID: 0}
   turnspeed: 3

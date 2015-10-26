@@ -10,6 +10,8 @@ public class HookController : MonoBehaviour
 
     public float ropeForce;
     public float jumpforce;
+    public float strafeforce;
+    public float dashforce;
 
     public Transform target1;
     public Transform target2;
@@ -42,10 +44,13 @@ public class HookController : MonoBehaviour
             targetLookDir = Quaternion.LookRotation(transform.forward - Vector3.Project(transform.forward, myUp.normalized), myUp);
         }
 
-        if (Input.GetButtonDown("A_1"))
+        if (Input.GetButton("A_1"))
         {
-            myRigidbody.AddForce(myUp * jumpforce, ForceMode.VelocityChange);
+            myRigidbody.AddForce(Model.forward * dashforce, ForceMode.Acceleration);
         }
+
+        myRigidbody.AddForce(Model.right * strafeforce * Input.GetAxis("L_XAxis_1"), ForceMode.Acceleration);
+        myRigidbody.AddForce(Model.up * jumpforce * Input.GetAxis("L_YAxis_1"), ForceMode.Acceleration);
 
         Debug.Log(Input.GetAxis("TriggersL_1") + "   " + Input.GetAxis("TriggersR_1"));
 
