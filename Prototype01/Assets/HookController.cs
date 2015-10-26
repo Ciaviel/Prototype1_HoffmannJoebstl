@@ -38,15 +38,15 @@ public class HookController : MonoBehaviour
             targetLookDir = Quaternion.LookRotation(transform.forward - Vector3.Project(transform.forward, myUp.normalized), myUp);
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("A_1"))
         {
             myRigidbody.AddForce(myUp * jumpforce, ForceMode.VelocityChange);
         }
 
-        Debug.Log(Input.GetAxis("Trigger1") + "   " + Input.GetAxis("Trigger2"));
+        Debug.Log(Input.GetAxis("TriggersL_1") + "   " + Input.GetAxis("TriggersR_1"));
 
 
-        if (Input.GetButton("Fire1") && target1 != null)
+        if (Input.GetButton("LB_1") && target1 != null)
         {
 
             if (myRigidbody.velocity.sqrMagnitude > 0.1f)
@@ -76,7 +76,7 @@ public class HookController : MonoBehaviour
             }
             else
             {
-                myRigidbody.AddForce(dir * Input.GetAxis("Trigger1") * ropeForce, ForceMode.Acceleration);
+                myRigidbody.AddForce(dir * Input.GetAxis("TriggersL_1") * ropeForce, ForceMode.Acceleration);
             }
         }
         else
@@ -84,7 +84,7 @@ public class HookController : MonoBehaviour
             distToTarget1 = -1.0f;
         }
 
-        if (Input.GetButton("Fire2") && target2 != null)
+        if (Input.GetButton("RB_1") && target2 != null)
         {
             if (myRigidbody.velocity.sqrMagnitude > 0.1f)
             {
@@ -112,7 +112,7 @@ public class HookController : MonoBehaviour
             }
             else
             {
-                myRigidbody.AddForce(dir * Input.GetAxis("Trigger2") * ropeForce, ForceMode.Acceleration);
+                myRigidbody.AddForce(dir * Input.GetAxis("TriggersR_1") * ropeForce, ForceMode.Acceleration);
             }
         }
         else

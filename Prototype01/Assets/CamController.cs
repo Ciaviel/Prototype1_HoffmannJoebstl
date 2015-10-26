@@ -17,13 +17,13 @@ public class CamController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float camX = Input.GetAxis("HorizontalSec");
-        float camY = Input.GetAxis("VerticalSec");
+        float camX = Input.GetAxis("R_XAxis_1");
+        float camY = Input.GetAxis("R_YAxis_1");
 
         transform.localRotation *= Quaternion.AngleAxis(camX * 2, Vector3.up);
         transform.localRotation *= Quaternion.AngleAxis(camY * 2, Vector3.right);
 
-        if (!Input.GetButton("Fire1"))
+        if (!Input.GetButton("LB_1"))
         {
             Ray ray1 = new Ray(transform.position + transform.parent.rotation * ray1Offset, transform.rotation * ray1Dir);
             RaycastHit result1;
@@ -47,7 +47,7 @@ public class CamController : MonoBehaviour
             Debug.DrawLine(transform.position + transform.parent.rotation * ray1Offset, debugBall1.transform.position, Color.blue);
         }
 
-        if (!Input.GetButton("Fire2"))
+        if (!Input.GetButton("RB_1"))
         {
             Ray ray2 = new Ray(transform.position + transform.parent.rotation * ray2Offset, transform.rotation * ray2Dir);
             RaycastHit result2;
