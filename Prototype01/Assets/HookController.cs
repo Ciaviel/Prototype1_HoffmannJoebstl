@@ -25,6 +25,7 @@ public class HookController : MonoBehaviour
     public Transform Model;
 
     bool RotateWithCamera = true;
+    float fuel = 100.0f;
 
     // Use this for initialization
     void Start()
@@ -44,13 +45,23 @@ public class HookController : MonoBehaviour
             targetLookDir = Quaternion.LookRotation(transform.forward - Vector3.Project(transform.forward, myUp.normalized), myUp);
         }
 
-        if (Input.GetButton("A_1"))
+        if (Input.GetAxis("L_XAxis_1") == 0.0f && Input.GetAxis("L_YAxis_1") == 0.0f && !Input.GetButton("A_1") && fuel <= 100.0f)
         {
-            myRigidbody.AddForce(Model.forward * dashforce, ForceMode.Acceleration);
+            fuel += 1.0f;
+            if(fuel > 100.0f){
+                fuel = 100.0f;
+            }
         }
+        else if(fuel > 0.0f){
+            if (Input.GetButton("A_1"))
+            {
+                myRigidbody.AddForce(Model.forward * dashforce, ForceMode.Acceleration);
+            }
 
-        myRigidbody.AddForce(Model.right * strafeforce * Input.GetAxis("L_XAxis_1"), ForceMode.Acceleration);
-        myRigidbody.AddForce(Model.up * jumpforce * Input.GetAxis("L_YAxis_1"), ForceMode.Acceleration);
+            myRigidbody.AddForce(Model.right * strafeforce * Input.GetAxis("L_XAxis_1"), ForceMode.Acceleration);
+            myRigidbody.AddForce(Model.up * jumpforce * Input.GetAxis("L_YAxis_1"), ForceMode.Acceleration);
+            fuel -= 1.0f;
+        }
 
         Debug.Log(Input.GetAxis("TriggersL_1") + "   " + Input.GetAxis("TriggersR_1"));
 
@@ -141,6 +152,9 @@ public class HookController : MonoBehaviour
         {
             RotateWithCamera = !RotateWithCamera;
         }
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 30;
+        GUI.Label(new Rect(Screen.width - 300, 10, Screen.width - 10, 50), "Fuel: " + ((int)fuel).ToString(), style);
     }
 
 }
