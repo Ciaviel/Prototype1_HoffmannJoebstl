@@ -52,7 +52,7 @@ public class HookController : MonoBehaviour
         myRigidbody.AddForce(Model.right * strafeforce * Input.GetAxis("L_XAxis_1"), ForceMode.Acceleration);
         myRigidbody.AddForce(Model.up * jumpforce * Input.GetAxis("L_YAxis_1"), ForceMode.Acceleration);
 
-        Debug.Log(Input.GetAxis("TriggersL_1") + "   " + Input.GetAxis("TriggersR_1"));
+        //Debug.Log(Input.GetAxis("TriggersL_1") + "   " + Input.GetAxis("TriggersR_1"));
 
 
         if (Input.GetButton("LB_1") && target1 != null)
